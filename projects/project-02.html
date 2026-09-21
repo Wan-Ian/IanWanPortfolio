@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oscillating-Wing Power Generator: Mechanism — Ian Wan</title>
-<meta name="description" content="Mechanism design for a bird-friendly oscillating-wing wind generator: Fusion 360 and Creo modeling, printed hardware, an adjustable travel limiter, and field validation chosen over CFD.">
-<link rel="canonical" href="https://zhinuu.github.io/IanWanPortfolio/projects/project-01.html">
+<title>Oscillating-Wing Power Generator: Closed-Loop Control & Firmware — Ian Wan</title>
+<meta name="description" content="The embedded feedback controller for an oscillating-wing power generator: seven architectures screened, a two-state switching controller with no tuned gains, and a 200 Hz real-time loop on an Arduino.">
+<link rel="canonical" href="https://zhinuu.github.io/IanWanPortfolio/projects/project-02.html">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,51 +56,52 @@
 
     <a href="../projects.html" style="font-size: 13px; font-weight: 600; color: var(--muted);"><span aria-hidden="true">&larr;</span> Back to Projects</a>
 
-    <p style="margin: 32px 0 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; color: var(--muted);">01 / 04 &middot; AeroHydro Research and Technology Associates &middot; Ongoing</p>
+    <p style="margin: 32px 0 0 0; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; color: var(--muted);">02 / 04 &middot; AeroHydro Research and Technology Associates &middot; Ongoing</p>
 
-    <h1 class="serif iw-h1" style="--h1max: 52px; margin: 16px 0 28px 0; font-weight: 600; line-height: 1.15; color: var(--ink); max-width: 820px;">Oscillating-Wing Power Generator: <em>Mechanism</em></h1>
+    <h1 class="serif iw-h1" style="--h1max: 52px; margin: 16px 0 28px 0; font-weight: 600; line-height: 1.15; color: var(--ink); max-width: 820px;">Oscillating-Wing Power Generator: <em>Closed-Loop Control &amp; Firmware</em></h1>
 
     <ul style="display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 48px 0; padding: 0; list-style: none;">
-      <li class="iw-skill-chip">Mechanism Design</li>
-      <li class="iw-skill-chip">Creo Parametric</li>
-      <li class="iw-skill-chip">Fusion 360</li>
-      <li class="iw-skill-chip">3D Printing</li>
-      <li class="iw-skill-chip">Design for Fabrication</li>
-      <li class="iw-skill-chip">Field Testing</li>
-      <li class="iw-skill-chip">Trade Studies</li>
+      <li class="iw-skill-chip">Control Architecture Selection</li>
+      <li class="iw-skill-chip">Embedded C++</li>
+      <li class="iw-skill-chip">Arduino</li>
+      <li class="iw-skill-chip">Quadrature Encoding</li>
+      <li class="iw-skill-chip">Real-Time Loop Design</li>
+      <li class="iw-skill-chip">Telemetry</li>
+      <li class="iw-skill-chip">Field Debugging</li>
     </ul>
 
     <div style="max-width: 760px;">
 
       <h2 class="serif iw-section-head" style="margin-bottom: 14px;">Overview</h2>
-      <p style="margin: 0 0 40px 0; font-size: 16px; line-height: 1.75;">Developing a wind power generator that harvests energy by oscillating wings rather than spinning rotor blades, a bird-friendly, lower-noise alternative to wind turbines. My side of it encompasses every design decision except aerodynamic calculations and airfoil geometry optimization. I own the mount, the printed hardware, the travel limiter, and the decisions about what gets fabricated and when.</p>
+      <p style="margin: 0 0 40px 0; font-size: 16px; line-height: 1.75;">The mechanism moves in wind but does not oscillate usefully on its own. A controller has to start it, sustain it, and keep it controllable in gusts nobody can predict, on hardware one person can debug at a remote site with no mains power. I co-own the embedded feedback controller and its firmware with a fellow researcher from the University of Washington: architecture choice, implementation, bench and field validation, and the telemetry the rest of the program analyzes.</p>
 
       <h2 class="serif iw-section-head" style="margin-bottom: 14px;">Technical Approach</h2>
-      <p style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px 0;">Modeling, prototyping, and field validation</p>
-      <p style="margin: 0 0 32px 0; font-size: 16px; line-height: 1.75;">Modeled in Fusion 360 and Creo Parametric. Physical prototyping was chosen over CFD on expertise grounds, so every revision was built and field-tested rather than simulated. The drive shaft was dimensioned to the bearings already in the machine rather than the reverse, and the mechanical travel stop's limiter arc is slotted so oscillation amplitude is adjustable on the rig instead of costing a reprint every time the target moves.</p>
+      <p style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px 0;">Architecture screening, real-time loop, bench and field validation</p>
+      <p style="margin: 0 0 32px 0; font-size: 16px; line-height: 1.75;">Seven candidate architectures were classified and rejected on stated grounds before one was written. The real-time loop reads a shaft-mounted quadrature encoder at 200 Hz. Every parameter that survived had to be one I could explain against observed motion on the bench, not one that merely made the machine run.</p>
 
       <figure style="margin: 0 0 20px 0;">
         <div class="iw-media iw-media-cover">
-          <img src="../assets/img/project-01-cover.jpg" alt="Side view of an early prototype of the oscillating-wing mechanism on a workshop floor, with two wings on a horizontal roll axis facing a large fan housing" width="1600" height="1200" loading="lazy" decoding="async">
+          <img src="../assets/img/project-02-cover.jpg" alt="Bench test setup with two servos, a breadboard, an Arduino and battery packs wired together on a patterned cloth" width="732" height="1300" loading="lazy" decoding="async">
         </div>
-        <figcaption class="iw-caption">Side view of an early prototype of the mechanism. The wings pitch about a black roll axis constrained by two bearings.</figcaption>
+        <figcaption class="iw-caption">Bench build test using a set of test servos before configuration on a separate set of on-wing servos. Two supply rails are used, one dedicated to the servos and one for the microcontroller and encoder.</figcaption>
       </figure>
 
-      <p style="margin: 0 0 40px 0;"><a href="gallery-01.html" style="font-size: 14px; font-weight: 600; color: var(--accent);">View full photo gallery <span aria-hidden="true">&rarr;</span></a></p>
+      <p class="iw-note" style="margin: 0 0 40px 0;">Photo coverage for this project is limited to the bench build above; the mechanism it drives is documented in <a href="project-01.html" style="color: var(--accent);">Project 01</a>.</p>
 
       <h2 class="serif iw-section-head" style="margin-bottom: 14px;">Outcomes</h2>
       <ul class="iw-dash-list">
-        <li>Dimensioned the drive shaft to the bearings already in the machine rather than the reverse, so upgrading the shaft cost no bearings.</li>
-        <li>Designed the mechanism's travel stop, winning adoption over the advisor's competing concept on packaging and efficiency grounds.</li>
-        <li>Slotted the limiter arc so oscillation amplitude is adjustable on the rig instead of costing a reprint every time the target moves.</li>
+        <li>Shipped a two-state switching controller with no tuned gains, which deletes the tuning surface entirely.</li>
+        <li>Firmware went from 301 lines with four gains and two loops, to 155 in one loop with one gain, to none.</li>
+        <li>Two parameters settable over the serial link let a seven-run sweep execute in about eight minutes, with no recompile.</li>
+        <li>With a clamp-only failsafe, the survival envelope is hybrid mechanical and software.</li>
       </ul>
 
       <h2 class="serif iw-section-head" style="margin-bottom: 14px;">Challenges</h2>
       <ul class="iw-dash-list">
-        <li>I spent two days trying to make a 3D-printed wing work before accepting that the servo linkage was beyond what I could fabricate. Abandoning my own part and writing purchase criteria for a bought one took me longer than it should have.</li>
-        <li>Proposing my own limiter design against my advisor's was harder than designing it. He is a distinguished professor emeritus and I was a first-year, so the case had to rest on packaging and efficiency, because nothing else I had would carry it.</li>
-        <li>Two rulings on that limiter contradicted each other: one kept it an untouched failsafe, a later one asked it to return energy at the extremes of travel. Holding the part out of fabrication until that resolved cost schedule I did not have.</li>
-        <li>The last field campaign ran against a fixed departure date and the printed parts never arrived, so I improvised the rig back onto the previous drive shaft. It worked, and I recorded in the same document that the configuration is not reproducible.</li>
+        <li>I lost weeks to a blocker I was certain was a dead encoder channel. It was a gain set low enough that my own commands fell below the servo's mechanical deadband. Nothing was broken. I had been reading a symptom as a fault.</li>
+        <li>I scrapped a controller that was overengineered. Fifteen tuning parameters, it ran, and I could not explain how any one of them contributed to the motion. The theory I studied to build the algorithm could not replace watching the machine on the bench and seeing what each parameter actually did to it. Rewriting it into something the team could check line by line cost weeks I had not planned for.</li>
+        <li>Every gain I deleted was defensible on its own. I never stepped back to ask what removing all of them together had done to the design until a later pivot forced the question.</li>
+        <li>I argued against one control architecture before it was adopted, on low-wind starting authority, and the field data did not support me. I recorded my advisor's rebuttal beside my objection and closed the entry out against the result.</li>
       </ul>
 
     </div>
@@ -112,11 +113,11 @@
       </div>
       <div>
         <dt style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Role</dt>
-        <dd style="font-size: 15px; font-weight: 600; color: var(--ink); margin: 6px 0 0 0;">Mechanism Design</dd>
+        <dd style="font-size: 15px; font-weight: 600; color: var(--ink); margin: 6px 0 0 0;">Controls &amp; Firmware</dd>
       </div>
       <div>
         <dt style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Platform</dt>
-        <dd style="font-size: 15px; font-weight: 600; color: var(--ink); margin: 6px 0 0 0;">Fusion 360 / Creo</dd>
+        <dd style="font-size: 15px; font-weight: 600; color: var(--ink); margin: 6px 0 0 0;">Arduino / Embedded C++</dd>
       </div>
       <div>
         <dt style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Timeline</dt>

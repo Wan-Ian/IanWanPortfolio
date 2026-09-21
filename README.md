@@ -8,10 +8,12 @@ Live URL once Pages is enabled: `https://zhinuu.github.io/IanWanPortfolio/`
 
 - `index.html` — Home
 - `about.html` — About
-- `projects.html` — Projects list (project 01 links to its own detail page; 02–04 are summary sections until their detail pages are built)
+- `projects.html` — Projects list; all four link to their detail pages
 - `contact.html` — Contact
-- `projects/project-01.html` — Oscillating-Wing Power Generator: Mechanism detail page
-- `projects/gallery-01.html` — Photo gallery for project 01
+- `projects/project-01.html` … `project-04.html` — the four project detail pages
+- `projects/gallery-01.html`, `gallery-03.html`, `gallery-04.html` — photo galleries.
+  Project 02 has no gallery: the portfolio PDF carries a single bench photo for it,
+  which sits on the detail page instead. Add `gallery-02.html` if more photos turn up.
 - `404.html` — not-found page (self-contained; see note below)
 - `assets/css/style.css` — shared styles
 - `assets/js/site.js` — shared behavior
@@ -38,8 +40,13 @@ blank white page behind.
 
 **Images.** Photographs are progressive JPEG sized to their render box; they are
 not PNG. All `<img>` tags carry `alt`, `width`, `height` and (below the fold)
-`loading="lazy"`. Re-exporting a photo? Match or exceed the CSS render width,
-and keep the file under ~150 KB.
+`loading="lazy"`. Re-exporting a photo? Match or exceed the CSS render width.
+
+Photographs use `.iw-media` and are cropped to a uniform 4:3 grid cell.
+**Technical figures use `.iw-media-fig` and are never cropped** — CAD views,
+drawings, schematics, FEA plots and screenshots carry legends, dimensions and
+callouts at their edges, and on those the numbers are the content. Project cover
+images (`.iw-media-cover`) are likewise uncropped, capped at 560px tall.
 
 **Colour.** Text pairs meet WCAG AA (4.5:1) and UI boundaries meet 1.4.11
 (3:1). `--border` is the real edge colour; `--border-soft` is decorative only
@@ -64,22 +71,17 @@ and keep the file under ~150 KB.
 
 ## Still to do
 
-1. **Project 02–04 detail pages.** Only project 01 has a detail page and
-   gallery. Build `projects/project-02.html` … `project-04.html` and matching
-   `gallery-0N.html` the same way project 01 is built, replace the "Detail page
-   in progress." lines on `projects.html`, and repoint the nav dropdown's
-   `#project-0N` anchors at the new pages. The cover photos for 02–04 were
-   removed from `assets/img/` because nothing referenced them; re-add them with
-   their pages.
-2. **Re-export the gallery photos at higher resolution.** Several sources are
-   smaller than the box they are rendered into (`gallery-01-coupler.jpg` is
-   290 px wide, `gallery-01-sketch.jpg` 414 px), so they upscale and look soft
-   on a large screen. Aim for roughly 1100 px wide from the originals.
-3. **Settle the image rights before publishing.** The Brighton wind tunnel photo
+1. **Settle the image rights before publishing.** The Brighton wind tunnel photo
    on `gallery-01.html`, and the full-assembly oscillator images, are flagged in
    `Ian_Wan_Portfolio_Session_Record_9-19-26.pdf` under "Do not use" pending
    written permission and a patent-disclosure answer. Publishing is a public
    disclosure and cannot be undone.
+2. **Project 02 photo coverage.** One bench photo exists. A wiring or block
+   diagram drawn rather than photographed would suit it, and sidesteps the
+   silkscreen problem the session record raises about board photos.
+3. **A few sources are still small.** `gallery-01-cura.jpg` (550px) and
+   `gallery-03-flexural.jpg` (546px) came out of the PDF at that size. Re-export
+   from the originals if you have them.
 
 ## Deploying to GitHub Pages
 

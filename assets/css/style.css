@@ -410,12 +410,63 @@ img { max-width: 100%; display: block; }
 
 .iw-media-wide img { aspect-ratio: 16 / 9; }
 
-.iw-media-cover img { aspect-ratio: 19 / 8; }
+/* Technical figures: CAD views, drawings, schematics, FEA plots, screenshots.
+   A fixed crop cuts legends, dimensions and callouts off the edge, and on these
+   the numbers are the content. Natural proportions, no crop. */
+.iw-media-fig img {
+  aspect-ratio: auto;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  background: var(--white);
+}
+
+/* Project cover images. These are CAD views, drawings and a tri-fold board as
+   often as they are photographs, so a fixed wide crop cuts real content out of
+   them. Natural proportions, capped by height, centred. */
+.iw-media-cover { border: none; background: none; border-radius: 0; }
+
+.iw-media-cover img {
+  aspect-ratio: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 560px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* For a source whose own proportions are the point (a very wide test-rig strip,
+   a drawing sheet). No forced ratio, so nothing is cropped. */
+.iw-media-free { border: none; background: none; }
+
+/* Natural size, centred. This source is only 546px wide, so stretching it to a
+   full-width grid cell would upscale it 2.3x. */
+.iw-media-free img {
+  aspect-ratio: auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
 
 @media (max-width: 600px) {
   .iw-media img,
   .iw-media-wide img,
   .iw-media-cover img { aspect-ratio: 4 / 3; }
+  .iw-media-free { border: none; background: none; }
+
+/* Natural size, centred. This source is only 546px wide, so stretching it to a
+   full-width grid cell would upscale it 2.3x. */
+.iw-media-free img {
+  aspect-ratio: auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
 }
 
 .iw-headshot {

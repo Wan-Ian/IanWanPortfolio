@@ -1,8 +1,8 @@
 # Ian Wan — Portfolio Site
 
-Static site for GitHub Pages (repo: `github.com/ZhiNuu/IanWanPortfolio`), built from the "Ian Wan Portfolio — Concept" Design canvas mockup. Plain HTML/CSS/JS, no build step.
+Static site for GitHub Pages (repo: `github.com/wan-ian/IanWanPortfolio`), built from the "Ian Wan Portfolio — Concept" Design canvas mockup. Plain HTML/CSS/JS, no build step.
 
-Live URL once Pages is enabled: `https://zhinuu.github.io/IanWanPortfolio/`
+Live URL once Pages is enabled: `https://wan-ian.github.io/IanWanPortfolio/`
 
 ## Structure
 
@@ -107,7 +107,7 @@ a 650x642 source; that is the avatar shape, not a content crop.
 3. On github.com: repo → **Settings** → **Pages** → **Build and deployment →
    Source** → **Deploy from a branch** → branch `main`, folder `/ (root)` →
    **Save**.
-4. Open `https://zhinuu.github.io/IanWanPortfolio/` and click through Home →
+4. Open `https://wan-ian.github.io/IanWanPortfolio/` and click through Home →
    Projects → the Mechanism page → its gallery → About → Contact, then try
    Download Resume.
 

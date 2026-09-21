@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zhinuu.github.io/IanWanPortfolio/sitemap.xml
+Sitemap: https://wan-ian.github.io/IanWanPortfolio/sitemap.xml

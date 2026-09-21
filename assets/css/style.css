@@ -371,6 +371,7 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 44px 40px;
+  align-items: start;   /* cards keep their own height; no stretching */
 }
 
 .iw-meta-strip {
@@ -392,83 +393,56 @@ img { max-width: 100%; display: block; }
   .iw-grid-gallery { gap: 32px; }
 }
 
-/* ---------- Media ---------- */
+/* ---------- Media ----------
+   NOTHING HERE CROPS. Every image on the site is shown whole: photographs, CAD
+   views, drawings, schematics, FEA plots and screenshots alike. There is no
+   `object-fit: cover` and no forced `aspect-ratio` anywhere.
+
+   Each image sits centred in a card and is capped by height, so rows stay
+   roughly even without a single pixel being cut off any edge. If a source is
+   portrait, it renders narrow inside its card rather than being trimmed to fit
+   the column. */
 
 .iw-media {
-  border-radius: 12px;
-  overflow: hidden;
   border: 1px solid var(--border);
-  background: var(--tag-bg);
+  border-radius: 12px;
+  background: var(--cream);   /* a visible mat, so a portrait in a wide cell
+                                 reads as a mounted print rather than a gap */
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .iw-media img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-.iw-media-wide img { aspect-ratio: 16 / 9; }
-
-/* Technical figures: CAD views, drawings, schematics, FEA plots, screenshots.
-   A fixed crop cuts legends, dimensions and callouts off the edge, and on these
-   the numbers are the content. Natural proportions, no crop. */
-.iw-media-fig img {
-  aspect-ratio: auto;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  background: var(--white);
-}
-
-/* Project cover images. These are CAD views, drawings and a tri-fold board as
-   often as they are photographs, so a fixed wide crop cuts real content out of
-   them. Natural proportions, capped by height, centred. */
-.iw-media-cover { border: none; background: none; border-radius: 0; }
-
-.iw-media-cover img {
-  aspect-ratio: auto;
   width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: 560px;
-  margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  max-height: 520px;
 }
 
-/* For a source whose own proportions are the point (a very wide test-rig strip,
-   a drawing sheet). No forced ratio, so nothing is cropped. */
-.iw-media-free { border: none; background: none; }
+/* Items spanning the full grid width, and project covers, can afford to be a
+   little taller. Still no crop — only the cap changes. */
+.iw-media-wide img { max-height: 620px; }
 
-/* Natural size, centred. This source is only 546px wide, so stretching it to a
-   full-width grid cell would upscale it 2.3x. */
-.iw-media-free img {
-  aspect-ratio: auto;
-  width: auto;
-  max-width: 100%;
+.iw-media-cover {
+  max-width: fit-content;   /* the card hugs the image instead of leaving a
+                               wide empty mat around a portrait cover */
   margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
 }
+
+.iw-media-cover img { max-height: 560px; }
 
 @media (max-width: 600px) {
+  .iw-media { padding: 6px; }
   .iw-media img,
   .iw-media-wide img,
-  .iw-media-cover img { aspect-ratio: 4 / 3; }
-  .iw-media-free { border: none; background: none; }
-
-/* Natural size, centred. This source is only 546px wide, so stretching it to a
-   full-width grid cell would upscale it 2.3x. */
-.iw-media-free img {
-  aspect-ratio: auto;
-  width: auto;
-  max-width: 100%;
-  margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
+  .iw-media-cover img { max-height: 440px; }
 }
 
+/* The one circular frame on the site. The source is 650x642, so the circle
+   trims about 8px of width; that is the avatar shape from the mockup rather
+   than a content crop. Swap to a square frame if you want it untouched. */
 .iw-headshot {
   width: min(325px, 100%);
   aspect-ratio: 1;

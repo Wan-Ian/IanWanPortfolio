@@ -1,40 +1,5 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Build output (skip this section if you're committing a prebuilt /docs or /dist for Pages)
-dist/
-build/
-.next/
-out/
-.parcel-cache/
-
-# Environment & secrets
-.env
-.env.local
-.env.*.local
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# OS files
 .DS_Store
 Thumbs.db
-
-# Editor/IDE
 .vscode/
-.idea/
-*.swp
-*.swo
-
-# Package manager lockfiles you don't want tracked (optional — most people DO commit these)
-# package-lock.json
-# yarn.lock
-
-# Misc
-*.local
-coverage/
+node_modules/
+*.log

@@ -42,11 +42,14 @@ blank white page behind.
 not PNG. All `<img>` tags carry `alt`, `width`, `height` and (below the fold)
 `loading="lazy"`. Re-exporting a photo? Match or exceed the CSS render width.
 
-Photographs use `.iw-media` and are cropped to a uniform 4:3 grid cell.
-**Technical figures use `.iw-media-fig` and are never cropped** — CAD views,
-drawings, schematics, FEA plots and screenshots carry legends, dimensions and
-callouts at their edges, and on those the numbers are the content. Project cover
-images (`.iw-media-cover`) are likewise uncropped, capped at 560px tall.
+**Nothing is cropped.** There is no `object-fit: cover` and no forced
+`aspect-ratio` anywhere on the site. Every image — photograph, CAD view,
+drawing, schematic, FEA plot, screenshot — is shown whole, centred on a cream
+mat inside its frame with an 18px inset, and capped by height (440px, 540px for
+a full-width item, 480px for a project cover) so rows stay even. A portrait
+renders narrow inside its card rather than being trimmed to fill the column.
+The single exception is the circular headshot frame, which trims about 8px from
+a 650x642 source; that is the avatar shape, not a content crop.
 
 **Colour.** Text pairs meet WCAG AA (4.5:1) and UI boundaries meet 1.4.11
 (3:1). `--border` is the real edge colour; `--border-soft` is decorative only
@@ -58,10 +61,18 @@ images (`.iw-media-cover`) are likewise uncropped, capped at 560px tall.
   then fades out. Not `window.load`: that waits on every image, which gated
   first paint on 1.4 MB of gallery photos. A 4 s timeout and a `load` listener
   back it up, and `<noscript>` covers total script failure.
-- **Gear cursor trail** — decorative gears spawn behind the real cursor on
-  pointer devices, throttled to one per 55 ms and removed after 320 ms. The
-  native cursor is never hidden. Skipped entirely on touch and under
-  `prefers-reduced-motion`.
+- **Gear cursor** — a gear replaces the native pointer and is repositioned
+  from the latest pointer coordinates every animation frame, so a cursor is
+  always on screen, including when the mouse is completely still. Ghost gears
+  trail behind it and fade out in 420 ms. The gear grows from 26px to 36px over
+  links and buttons, which is the affordance the native pointer-hand would
+  otherwise give.
+
+  `cursor: none` is applied by the script (`html.iw-gear-cursor`), never from
+  the stylesheet, so a blocked script leaves the native pointer alone. It never
+  starts on touch or coarse pointers, under `prefers-reduced-motion`, or under
+  `forced-colors`, and it tears itself down if any of those change while the
+  page is open or if a real touch happens on a hybrid laptop.
 - **"Projects" nav dropdown** — a disclosure widget: a real `<button>` with
   `aria-expanded`/`aria-controls` toggling a panel of ordinary links. Closes on
   outside click, on Escape (returning focus to the trigger) and when focus

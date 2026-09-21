@@ -8,9 +8,6 @@
 (function () {
   "use strict";
 
-  var reduceMotion =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   var GEAR_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
@@ -42,47 +39,133 @@
     window.setTimeout(hideLoader, 4000);
   }
 
-  /* ---------- Gear cursor trail ----------
-     Pure decoration layered on top of the real cursor, which is never hidden.
-     Skipped on touch and when the visitor has asked for reduced motion. */
-  var supportsHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
+  /* ---------- Gear cursor ----------
+     The gear REPLACES the native pointer, and it is repositioned every frame
+     from the latest pointer coordinates, so a cursor is always visible even
+     when the mouse is completely still. Behind it, short-lived ghosts fade out
+     in well under a second.
 
-  if (supportsHover && !reduceMotion) {
-    var lastSpawn = 0;
-    var SPAWN_INTERVAL_MS = 55; // throttle so the trail isn't overwhelming
-    var LIFETIME_MS = 320;
+     Accessibility rules this obeys:
+       - `cursor: none` is set from here, never from the stylesheet, so if this
+         script fails to load the native pointer is untouched.
+       - It never starts on touch or coarse pointers.
+       - It never starts under prefers-reduced-motion or forced-colors, and it
+         tears itself down if either becomes true while the page is open.
+       - The gear grows over links and buttons, replacing the affordance the
+         native pointer-hand would have given.
+       - A real touch on a hybrid laptop tears it down too.
+       - The OS pointer is restored whenever the pointer leaves the window. */
 
-    document.addEventListener("mousemove", function (e) {
-      var now = Date.now();
-      if (now - lastSpawn < SPAWN_INTERVAL_MS) return;
-      lastSpawn = now;
+  var cursor = (function () {
+    var mqFine    = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : null;
+    var mqMotion  = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    var mqColors  = window.matchMedia ? window.matchMedia("(forced-colors: active)") : null;
 
-      var x = e.clientX - 8;
-      var y = e.clientY - 8;
+    var GHOST_LIFETIME_MS = 420;   // well under one second
+    var GHOST_INTERVAL_MS = 34;    // ~2 ghosts per 60fps frame pair
+
+    var root, ghostLayer, raf = null, running = false;
+    var x = -100, y = -100, lastGhost = 0, lastGx = -999, lastGy = -999;
+
+    function allowed() {
+      if (!mqFine || !mqFine.matches) return false;
+      if (mqMotion && mqMotion.matches) return false;
+      if (mqColors && mqColors.matches) return false;
+      return true;
+    }
+
+    function frame() {
+      if (!running) return;
+      root.style.transform = "translate3d(" + x + "px," + y + "px,0)";
+      raf = requestAnimationFrame(frame);
+    }
+
+    function spawnGhost(now) {
+      if (now - lastGhost < GHOST_INTERVAL_MS) return;
+      // Only trail when the pointer has actually travelled, so a resting mouse
+      // does not pile up invisible nodes.
+      var dx = x - lastGx, dy = y - lastGy;
+      if (dx * dx + dy * dy < 36) return;
+      lastGhost = now; lastGx = x; lastGy = y;
+
+      var g = document.createElement("span");
+      g.className = "iw-cursor-ghost";
+      g.setAttribute("aria-hidden", "true");
+      g.innerHTML = GEAR_SVG;
       var spin = Math.round(Math.random() * 360);
+      g.style.transform = "translate3d(" + x + "px," + y + "px,0) rotate(" + spin + "deg) scale(1)";
+      ghostLayer.appendChild(g);
 
-      var gear = document.createElement("span");
-      gear.className = "iw-cursor-gear";
-      gear.setAttribute("aria-hidden", "true");
-      gear.innerHTML = GEAR_SVG;
-      gear.style.transform =
-        "translate(" + x + "px, " + y + "px) rotate(" + spin + "deg) scale(1)";
-      document.body.appendChild(gear);
-
-      // Kick off the fade/shrink on the next frame so the transition fires.
-      // Same origin and a fixed +90deg, so the gear spins rather than jumping
-      // to an unrelated angle the way a second random value did.
       requestAnimationFrame(function () {
-        gear.style.opacity = "0";
-        gear.style.transform =
-          "translate(" + x + "px, " + y + "px) rotate(" + (spin + 90) + "deg) scale(0.4)";
+        g.style.opacity = "0";
+        g.style.transform =
+          "translate3d(" + x + "px," + y + "px,0) rotate(" + (spin + 70) + "deg) scale(0.35)";
       });
-
       window.setTimeout(function () {
-        if (gear.parentNode) gear.parentNode.removeChild(gear);
-      }, LIFETIME_MS);
+        if (g.parentNode) g.parentNode.removeChild(g);
+      }, GHOST_LIFETIME_MS);
+    }
+
+    function onMove(e) {
+      x = e.clientX; y = e.clientY;
+      if (root.classList.contains("is-hidden")) root.classList.remove("is-hidden");
+      var el = e.target;
+      var interactive = el && el.closest &&
+        el.closest('a[href], button, [role="button"], input, select, textarea, summary');
+      root.classList.toggle("is-over-link", !!interactive);
+      spawnGhost(e.timeStamp || Date.now());
+    }
+
+    function onLeave() { root.classList.add("is-hidden"); }
+
+    function start() {
+      if (running || !allowed()) return;
+      running = true;
+
+      root = document.createElement("span");
+      root.className = "iw-cursor is-hidden";
+      root.setAttribute("aria-hidden", "true");
+      root.innerHTML = GEAR_SVG;
+
+      ghostLayer = document.createElement("span");
+      ghostLayer.setAttribute("aria-hidden", "true");
+
+      document.body.appendChild(ghostLayer);
+      document.body.appendChild(root);
+      document.documentElement.classList.add("iw-gear-cursor");
+
+      document.addEventListener("mousemove", onMove, { passive: true });
+      document.addEventListener("mouseleave", onLeave);
+      window.addEventListener("blur", onLeave);
+      raf = requestAnimationFrame(frame);
+    }
+
+    function stop() {
+      if (!running) return;
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("blur", onLeave);
+      document.documentElement.classList.remove("iw-gear-cursor");
+      if (root && root.parentNode) root.parentNode.removeChild(root);
+      if (ghostLayer && ghostLayer.parentNode) ghostLayer.parentNode.removeChild(ghostLayer);
+    }
+
+    function sync() { if (allowed()) start(); else stop(); }
+
+    [mqFine, mqMotion, mqColors].forEach(function (mq) {
+      if (!mq) return;
+      if (mq.addEventListener) mq.addEventListener("change", sync);
+      else if (mq.addListener) mq.addListener(sync);
     });
-  }
+
+    // A hybrid laptop reports a fine pointer but may still be touched. One real
+    // touch and the native cursor comes back for good.
+    window.addEventListener("touchstart", function () { stop(); }, { passive: true, once: true });
+
+    return { start: start, stop: stop, sync: sync };
+  })();
 
   /* ---------- "Projects" nav dropdown ----------
      A disclosure widget: a real <button> toggling a panel of ordinary links.
@@ -126,9 +209,14 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initProjectsDropdown);
-  } else {
+  function init() {
     initProjectsDropdown();
+    cursor.start();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 })();

@@ -24,42 +24,43 @@
   </svg>
 </div>
 
-<div id="top" style="position: relative; overflow: hidden;">
+<div id="top">
 
-  <div style="position: absolute; right: -130px; bottom: -170px; width: 440px; height: 440px; border-radius: 50%; border: 42px solid var(--border-soft); box-sizing: border-box; pointer-events: none;" aria-hidden="true"></div>
-  <div style="position: absolute; right: -10px; bottom: -70px; width: 260px; height: 260px; border-radius: 50%; background: var(--accent); pointer-events: none;" aria-hidden="true"></div>
-
-  <div style="position: relative; z-index: 1;">
-
-    <header>
-      <nav class="iw-nav" aria-label="Main">
-        <a class="iw-logo" href="index.html" aria-current="page">IAN WAN</a>
-        <div class="iw-nav-links">
-          <div class="iw-nav-item">
-            <button class="iw-nav-link" data-projects-trigger aria-expanded="false" aria-controls="projects-menu">Projects</button>
-            <div class="iw-dropdown" id="projects-menu" data-projects-dropdown>
-              <a class="iw-dropdown-all" href="projects.html">All projects</a>
-              <div class="iw-dropdown-divider"></div>
-              <a class="iw-dropdown-project" href="projects/project-01.html">Oscillating-Wing Power Generator: Mechanism</a>
-              <a class="iw-dropdown-gallery" href="projects/gallery-01.html">Photo Gallery</a>
-              <div class="iw-dropdown-divider"></div>
-              <a class="iw-dropdown-project" href="projects/project-02.html">Oscillating-Wing Power Generator: Closed-Loop Control &amp; Firmware</a>
-              <div class="iw-dropdown-divider"></div>
-              <a class="iw-dropdown-project" href="projects/project-03.html">Formula SAE Cockpit Subsystem</a>
-              <a class="iw-dropdown-gallery" href="projects/gallery-03.html">Photo Gallery</a>
-              <div class="iw-dropdown-divider"></div>
-              <a class="iw-dropdown-project" href="projects/project-04.html">Applications of Compliant Mechanisms Study</a>
-              <a class="iw-dropdown-gallery" href="projects/gallery-04.html">Photo Gallery</a>
+  <header>
+        <nav class="iw-nav" aria-label="Main">
+          <a class="iw-logo" href="index.html" aria-current="page">IAN WAN</a>
+          <div class="iw-nav-links">
+            <div class="iw-nav-item">
+              <button class="iw-nav-link" data-projects-trigger aria-expanded="false" aria-controls="projects-menu">Projects</button>
+              <div class="iw-dropdown" id="projects-menu" data-projects-dropdown>
+                <a class="iw-dropdown-all" href="projects.html">All projects</a>
+                <div class="iw-dropdown-divider"></div>
+                <a class="iw-dropdown-project" href="projects/project-01.html">Oscillating-Wing Power Generator: Mechanism</a>
+                <a class="iw-dropdown-gallery" href="projects/gallery-01.html">Photo Gallery</a>
+                <div class="iw-dropdown-divider"></div>
+                <a class="iw-dropdown-project" href="projects/project-02.html">Oscillating-Wing Power Generator: Closed-Loop Control &amp; Firmware</a>
+                <div class="iw-dropdown-divider"></div>
+                <a class="iw-dropdown-project" href="projects/project-03.html">Formula SAE Cockpit Subsystem</a>
+                <a class="iw-dropdown-gallery" href="projects/gallery-03.html">Photo Gallery</a>
+                <div class="iw-dropdown-divider"></div>
+                <a class="iw-dropdown-project" href="projects/project-04.html">Applications of Compliant Mechanisms Study</a>
+                <a class="iw-dropdown-gallery" href="projects/gallery-04.html">Photo Gallery</a>
+              </div>
             </div>
+            <a class="iw-nav-link" href="about.html">About</a>
+            <a class="iw-nav-link" href="contact.html">Contact</a>
           </div>
-          <a class="iw-nav-link" href="about.html">About</a>
-          <a class="iw-nav-link" href="contact.html">Contact</a>
-        </div>
-      </nav>
-    </header>
+    </nav>
+  </header>
 
-    <main id="main" class="iw-page" style="padding-top: 24px; padding-bottom: 90px;">
-      <div style="max-width: 620px;">
+  <main id="main">
+
+    <div class="iw-hero">
+      <div class="iw-hero-ring" aria-hidden="true"></div>
+      <div class="iw-hero-dot" aria-hidden="true"></div>
+
+      <div class="iw-page" style="position: relative; z-index: 1; padding-top: 24px; padding-bottom: 72px;">
+        <div style="max-width: 620px;">
         <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);">Mechanical Design &amp; Test Engineering</p>
         <h1 class="serif iw-display" style="--h1max: 84px; margin: 18px 0 20px 0; font-weight: 600; line-height: 1.02; color: var(--ink);">Ian Wan</h1>
         <p style="margin: 0 0 32px 0; font-size: 18px; line-height: 1.65; max-width: 540px;">University of Illinois at Urbana Champaign student enrolled in the Bachelors of Science in Systems Engineering and Design major. I own mechanisms <em>end to end</em>: CAD, GD&amp;T drawing packages, the firmware that controls them, and the field rigs that prove they work.</p>
@@ -73,16 +74,60 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 19h16"></path></svg>
             Resume
           </a>
+          </div>
         </div>
       </div>
-    </main>
 
-    <div class="iw-scroll-cue" style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 40px;" aria-hidden="true">
-      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);">Scroll to explore</span>
-      <div style="width: 1px; height: 34px; background: var(--muted);"></div>
+      <a class="iw-scroll-cue" href="#work">
+        <span>Scroll to explore</span>
+        <span class="iw-scroll-line" aria-hidden="true"></span>
+      </a>
     </div>
 
-  </div>
+    <section id="work" class="iw-page" style="padding-top: 8px; padding-bottom: 72px;">
+      <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);">Selected Work</p>
+      <h2 class="serif" style="margin: 12px 0 8px 0; font-weight: 600; font-size: clamp(26px, 5vw, 36px); color: var(--ink);">Four projects, built then tested.</h2>
+      <p style="margin: 0 0 8px 0; font-size: 15px; line-height: 1.65; color: var(--muted); max-width: 620px;">Mechanism design, embedded control, a drawing package judged at competition, and a controlled study.</p>
+
+      <ol class="iw-home-work">
+        <li>
+          <span class="iw-home-num" aria-hidden="true">01</span>
+          <div>
+            <p class="iw-home-org">AeroHydro Research and Technology Associates</p>
+            <a class="iw-home-title serif iw-project-title" href="projects/project-01.html">Oscillating-Wing Power Generator: Mechanism</a>
+            <p class="iw-home-sum">A bird-friendly wind generator that harvests energy from oscillating wings instead of spinning rotor blades.</p>
+          </div>
+        </li>
+        <li>
+          <span class="iw-home-num" aria-hidden="true">02</span>
+          <div>
+            <p class="iw-home-org">AeroHydro Research and Technology Associates</p>
+            <a class="iw-home-title serif iw-project-title" href="projects/project-02.html">Oscillating-Wing Power Generator: Closed-Loop Control &amp; Firmware</a>
+            <p class="iw-home-sum">The embedded controller that starts the wings, sustains them, and keeps them regulable in gusts.</p>
+          </div>
+        </li>
+        <li>
+          <span class="iw-home-num" aria-hidden="true">03</span>
+          <div>
+            <p class="iw-home-org">Illini Electric Motorsports, Formula SAE Electric</p>
+            <a class="iw-home-title serif iw-project-title" href="projects/project-03.html">Formula SAE Cockpit Subsystem</a>
+            <p class="iw-home-sum">Drawing package to ASME Y14.5, manual mill work, and a jig that replaces a repeat physical test.</p>
+          </div>
+        </li>
+        <li>
+          <span class="iw-home-num" aria-hidden="true">04</span>
+          <div>
+            <p class="iw-home-org">Alameda County (ACSEF) and California State (CSEF) Science Fairs</p>
+            <a class="iw-home-title serif iw-project-title" href="projects/project-04.html">Applications of Compliant Mechanisms Study</a>
+            <p class="iw-home-sum">An eight-part cam-and-spring latch rebuilt as one printable compliant part, validated against FEA and load testing.</p>
+          </div>
+        </li>
+      </ol>
+
+      <p style="margin: 28px 0 0 0;"><a href="projects.html" style="font-size: 14px; font-weight: 600; color: var(--accent);">View all projects <span aria-hidden="true">&rarr;</span></a></p>
+    </section>
+
+  </main>
 </div>
 
 <script src="assets/js/site.js"></script>

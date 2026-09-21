@@ -377,8 +377,11 @@ html.iw-gear-cursor * { cursor: none !important; }
   box-shadow: 0 0 0 3px rgba(181, 86, 58, 0.18), 0 0 24px 4px rgba(181, 86, 58, 0.35);
 }
 
-@media (max-width: 400px) {
-  .iw-btn { padding: 13px 20px; font-size: 13px; }
+/* Three buttons now sit on the Contact page. Below ~560px the full padding
+   leaves them just wide enough to break onto three separate rows, so trim it
+   a little earlier and they pair up two-and-one instead. */
+@media (max-width: 560px) {
+  .iw-btn { padding: 13px 20px; font-size: 13px; gap: 8px; }
 }
 
 /* ---------- Project title hover glow ---------- */
@@ -621,11 +624,131 @@ html.iw-gear-cursor * { cursor: none !important; }
   flex: 0 0 auto;
 }
 
-/* On a phone the hero is short enough that the scroll cue lands on top of the
-   decorative circle and becomes unreadable. It carries no information (it is
-   aria-hidden), so drop it rather than restyle it. */
+/* ---------- Home hero + scroll cue ----------
+   The hero is its own band so the decorative circles stay anchored to it
+   rather than to the whole page. The cue below it is a real link to #work:
+   before, it was an aria-hidden div on a page exactly one viewport tall, so
+   it invited a scroll that had nowhere to go. */
+
+.iw-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.iw-hero-ring,
+.iw-hero-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.iw-hero-ring {
+  right: -130px;
+  bottom: -170px;
+  width: 440px;
+  height: 440px;
+  border: 42px solid var(--border-soft);
+}
+
+.iw-hero-dot {
+  right: -10px;
+  bottom: -70px;
+  width: 260px;
+  height: 260px;
+  background: var(--accent);
+}
+
 @media (max-width: 760px) {
-  .iw-scroll-cue { display: none; }
+  .iw-hero-ring { right: -150px; bottom: -200px; width: 330px; height: 330px; border-width: 32px; }
+  .iw-hero-dot  { right: -50px;  bottom: -110px; width: 190px; height: 190px; }
+}
+
+.iw-scroll-cue {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0 40px 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  width: max-content;
+  margin: 0 auto;
+  transition: color 160ms ease;
+}
+
+.iw-scroll-cue:hover { color: var(--accent); }
+
+.iw-scroll-line {
+  width: 1px;
+  height: 34px;
+  background: currentColor;
+  animation: iw-cue 1.8s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes iw-cue {
+  0%, 100% { transform: scaleY(0.55); opacity: 0.5; }
+  50%      { transform: scaleY(1);    opacity: 1; }
+}
+
+/* ---------- Home: selected work ---------- */
+
+.iw-home-work {
+  list-style: none;
+  margin: 28px 0 0 0;
+  padding: 0;
+}
+
+.iw-home-work li {
+  display: flex;
+  gap: 28px;
+  align-items: baseline;
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+}
+
+.iw-home-num {
+  flex: 0 0 44px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.iw-home-org {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.iw-home-title {
+  display: inline-block;
+  margin: 6px 0 0 0;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.iw-home-sum {
+  margin: 8px 0 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 660px;
+}
+
+@media (max-width: 600px) {
+  .iw-home-work li { gap: 16px; padding: 18px 0; }
+  .iw-home-num { flex-basis: 32px; font-size: 18px; }
+  .iw-home-title { font-size: 18px; }
 }
 
 .iw-section-head {

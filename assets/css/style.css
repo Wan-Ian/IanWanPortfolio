@@ -642,9 +642,16 @@ html.iw-gear-cursor * { cursor: none !important; }
   pointer-events: none;
 }
 
+/* The circles bleed off the right edge only. They used to hang below the hero
+   too (bottom: -170px / -70px), which was invisible while the hero was a full
+   viewport tall and the cut fell below the fold. Once the header moved out of
+   the band the hero shrank to ~460px, and overflow: hidden started slicing
+   both circles flat across the middle of the page. Anchoring them at bottom: 0
+   keeps the arc closed; the horizontal bleed is what carries the composition. */
+
 .iw-hero-ring {
   right: -130px;
-  bottom: -170px;
+  bottom: 0;
   width: 440px;
   height: 440px;
   border: 42px solid var(--border-soft);
@@ -652,15 +659,31 @@ html.iw-gear-cursor * { cursor: none !important; }
 
 .iw-hero-dot {
   right: -10px;
-  bottom: -70px;
+  bottom: 100px;
   width: 260px;
   height: 260px;
   background: var(--accent);
 }
 
-@media (max-width: 760px) {
-  .iw-hero-ring { right: -150px; bottom: -200px; width: 330px; height: 330px; border-width: 32px; }
-  .iw-hero-dot  { right: -50px;  bottom: -110px; width: 190px; height: 190px; }
+/* The full-size ring only clears the text column above about 1000px: the
+   content needs 64px of gutter plus its 620px column, and the ring reaches
+   310px in from the right edge. Below that the circles shrink and the hero
+   gains a padding band below the buttons for them to sit in. An absolutely
+   positioned child resolves bottom against the padding box, so that padding
+   is what opens the clear space rather than pushing the circles down with it.
+   The old breakpoint was 760px, which left the ring sitting on the paragraph
+   between there and 1000px. */
+
+@media (max-width: 1000px) {
+  .iw-hero { padding-bottom: 160px; }
+  .iw-hero-ring { right: -110px; bottom: 0; width: 230px; height: 230px; border-width: 26px; }
+  .iw-hero-dot  { right: -30px;  bottom: 52px; width: 130px; height: 130px; }
+}
+
+@media (max-width: 400px) {
+  .iw-hero { padding-bottom: 112px; }
+  .iw-hero-ring { right: -85px; bottom: 0; width: 180px; height: 180px; border-width: 20px; }
+  .iw-hero-dot  { right: -22px; bottom: 42px; width: 100px; height: 100px; }
 }
 
 /* ---------- Home: selected work ---------- */
